@@ -4,6 +4,8 @@ const buttonDom = document.getElementById('playerForm');
 
 const difficultDom = document.getElementById('difficulties');
 
+const finalScoreDom = document.getElementById('finalscore');
+
 
 
 let bombArray = [];
@@ -40,9 +42,7 @@ buttonDom.addEventListener('click', function () {
 
         bombArray.push(newBomb);
 
-        if (squareGen.innerHTML == newBomb){
-            this.classList.toggle('clicked-red');
-        }
+        
     }
 
     
@@ -53,7 +53,15 @@ buttonDom.addEventListener('click', function () {
 
 function generatoreDiQuadrati(min, max) {
 
+    finalScoreDom.innerHTML = `Il tuo punteggio è: 0`;
+
+    const score = [];
+
+    let gameOver = false;
+
     for (let i = min; i <= max; i++) {
+
+        
 
         const squareGen = document.createElement('div');
 
@@ -68,9 +76,23 @@ function generatoreDiQuadrati(min, max) {
         squareGen.classList.add('square');
 
         squareGen.addEventListener('click', function () {
+        if(!gameOver){
+            if (bombArray.includes(i)) {
+                this.classList.add('clicked-red');
+                gameOver = true;
+            } else {
+                this.classList.add('clicked-blue');
+                if(!score.includes(i)){
+                    score.push(i);
+                }
+            }
+        
+            
 
-            this.classList.toggle('clicked-blue');
+            finalScoreDom.innerHTML  = `Il tuo punteggio è: ${score.length}`;
+        }
             console.log(i);
+            
         }
         );
 
